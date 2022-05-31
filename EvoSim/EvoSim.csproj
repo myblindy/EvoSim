@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <LangVersion>preview</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dirkster.AvalonDock.Themes.VS2013" Version="4.70.1" />
+    <PackageReference Include="Dirkster.MLib" Version="1.3.1.2" />
+    <PackageReference Include="Dirkster.MWindowLib" Version="1.3.1.2" />
+    <PackageReference Include="Lamar" Version="8.0.1" />
+    <PackageReference Include="ReactiveUI.WPF" Version="18.0.10" />
+    <PackageReference Include="MvvmDialogs" Version="8.0.0" />
+    
+    <Using Include="EvoSim.Support" />
+
+    <Using Include="MvvmDialogs" />
+    <Using Include="ReactiveUI" />
+    <Using Include="System" />
+    <Using Include="System.Buffers" />
+    <Using Include="System.Collections" />
+    <Using Include="System.Collections.Generic" />
+    <Using Include="System.Collections.ObjectModel" />
+    <Using Include="System.ComponentModel" />
+    <Using Include="System.Linq" />
+    <Using Include="System.Reactive.Linq" />
+    <Using Include="System.Runtime.InteropServices" />
+    <Using Include="System.Text" />
+    <Using Include="System.Text.RegularExpressions" />
+    <Using Include="System.Threading" />
+    <Using Include="System.Diagnostics" />
+    <Using Include="System.Windows" />
+    <Using Include="System.Windows.Controls" />
+    <Using Include="System.Windows.Data" />
+    <Using Include="System.Windows.Input" />
+    <Using Include="System.Windows.Media" />
+    <Using Include="System.Windows.Media.Imaging" />
+  </ItemGroup>
+
+</Project>

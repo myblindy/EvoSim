@@ -1,0 +1,34 @@
+﻿<Window x:Class="EvoSim.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EvoSim.Views" 
+        xmlns:viewmodels="clr-namespace:EvoSim.ViewModels" 
+        xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+        d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
+        mc:Ignorable="d"
+        Title="Evolution Sim" WindowState="Maximized" WindowStartupLocation="CenterScreen"
+        md:DialogServiceViews.IsRegistered="True"
+        DataContext="{Binding Path=(viewmodels:ViewModelLocator.MainViewModel)}">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="New" Command="{Binding NewDocumentCommand}"/>
+            </MenuItem>
+        </Menu>
+        <DockingManager DocumentsSource="{Binding Documents}"
+                        ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}">
+            <DockingManager.LayoutItemContainerStyle>
+                <Style TargetType="{x:Type LayoutItem}">
+                    <Setter Property="Title" Value="{Binding Model.Title}" />
+                </Style>
+            </DockingManager.LayoutItemContainerStyle>
+            <LayoutRoot>
+                <LayoutPanel>
+                    <LayoutDocumentPane/>
+                </LayoutPanel>
+            </LayoutRoot>
+        </DockingManager>
+    </DockPanel>
+</Window>
