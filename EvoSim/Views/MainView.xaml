@@ -10,7 +10,8 @@
         mc:Ignorable="d"
         Title="Evolution Sim" WindowState="Maximized" WindowStartupLocation="CenterScreen"
         md:DialogServiceViews.IsRegistered="True"
-        DataContext="{Binding Path=(viewmodels:ViewModelLocator.MainViewModel)}">
+        DataContext="{Binding Path=(viewmodels:ViewModelLocator.MainViewModel)}"
+        x:Name="RootView">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
@@ -19,11 +20,22 @@
         </Menu>
         <DockingManager DocumentsSource="{Binding Documents}"
                         ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}">
+            <DockingManager.Theme>
+                <Vs2013LightTheme/>
+            </DockingManager.Theme>
             <DockingManager.LayoutItemContainerStyle>
                 <Style TargetType="{x:Type LayoutItem}">
                     <Setter Property="Title" Value="{Binding Model.Title}" />
                 </Style>
             </DockingManager.LayoutItemContainerStyle>
+            <DockingManager.LayoutItemTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:DocumentViewModel}">
+                    <DockPanel>
+                        <Button DockPanel.Dock="Bottom" Command="{Binding StepCommand}">Step</Button>
+                        <Image Source="{Binding PreviewImageSource}" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                    </DockPanel>
+                </DataTemplate>
+            </DockingManager.LayoutItemTemplate>
             <LayoutRoot>
                 <LayoutPanel>
                     <LayoutDocumentPane/>

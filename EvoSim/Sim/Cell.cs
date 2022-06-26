@@ -1,6 +1,6 @@
 ﻿namespace EvoSim.Sim;
 
-enum Direction { SW, S, SE, W, CENTER, E, NW, N, NE }
+enum Direction { SW, S, SE, W, Center, E, NW, N, NE }
 
 static class DirectionExtensions
 {
@@ -17,7 +17,7 @@ static class DirectionExtensions
                 Direction.SW => Direction.W,
                 Direction.W => Direction.NW,
                 Direction.NW => Direction.N,
-                Direction.CENTER => Direction.CENTER,
+                Direction.Center => Direction.Center,
                 _ => throw new InvalidOperationException()
             };
 
@@ -30,11 +30,30 @@ class Cell
     public Vector2i Position { get; set; }
     public Direction Direction { get; set; }
     public NeuralNet NeuralNet { get; }
-    public Genome Genome { get; set; }
+    public SimConfiguration SimConfiguration { get; }
 
-    public Cell(SimConfiguration simConfiguration) =>
-        NeuralNet = new(simConfiguration);
+    Genome genome;
+    public Genome Genome { get => genome; set => NeuralNet.Load(genome = value); }
 
-    public void PositionRandomly(SimConfiguration simConfiguration) =>
-        (Position, Direction) = (new(Random.Shared.Next(simConfiguration.Size), Random.Shared.Next(simConfiguration.Size)), (Direction)Random.Shared.Next(9));
+    public Cell(SimConfiguration simConfiguration)
+    {
+        SimConfiguration = simConfiguration;
+        NeuralNet = new(this);
+    }
+
+    public void PositionRandomly() =>
+        (Position, Direction) = (new(Random.Shared.Next(SimConfiguration.Size), Random.Shared.Next(SimConfiguration.Size)), (Direction)Random.Shared.Next(9));
+
+    public void Step() =>
+        NeuralNet.Step();
+
+    public void Move(Vector2i delta)
+    {
+        if (Position.X + delta.X < 0 || Position.X + delta.X >= SimConfiguration.Size)
+            delta = new(0, delta.Y);
+        if (Position.Y + delta.Y < 0 || Position.Y + delta.Y >= SimConfiguration.Size)
+            delta = new(delta.X, 0);
+
+        Position += delta;
+    }
 }

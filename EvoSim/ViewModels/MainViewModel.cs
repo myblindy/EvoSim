@@ -1,4 +1,6 @@
-﻿namespace EvoSim.ViewModels;
+﻿using EvoSim.Sim;
+
+namespace EvoSim.ViewModels;
 
 class MainViewModel : ReactiveObject
 {
@@ -12,11 +14,21 @@ class MainViewModel : ReactiveObject
         int lastDocumentIndex = 0;
         NewDocumentCommand = ReactiveCommand.Create(() =>
         {
-            DocumentViewModel docVm = new($"sim{++lastDocumentIndex:00}");
-            dialogService.ShowDialog(this, docVm);
+            DocumentViewModel docVm = new($"sim{++lastDocumentIndex:00}", new()
+            {
+                GenomeLength = 4,
+                InternalNeuronCount = 3,
+                Size = 300,
+                MutationChance = .2,
+                PopulationSize = 500
+            });
+            //dialogService.ShowDialog(this, docVm);
+
             Documents.Add(docVm);
             ActiveDocument = Documents.Last();
         });
+
+        NewDocumentCommand.Execute(default);
     }
 
     public ICommand NewDocumentCommand { get; }

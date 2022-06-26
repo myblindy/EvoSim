@@ -14,8 +14,16 @@ struct Genome : IEnumerable<Gene>
             for (int i = 0; i < simConfiguration.GenomeLength; i++)
                 genes[i] = new(
                     Random.Shared.Next(Receptor.Count + simConfiguration.InternalNeuronCount),
-                    Receptor.Count + Random.Shared.Next(Effector.Count + simConfiguration.InternalNeuronCount),
+                    Random.Shared.Next(Effector.Count + simConfiguration.InternalNeuronCount),
                     Random.Shared.NextSingle());
+    }
+
+    public override int GetHashCode()
+    {
+        var hash = new HashCode();
+        foreach (var gene in genes)
+            hash.Add(gene);
+        return hash.ToHashCode();
     }
 
     public static Genome MakeChild(SimConfiguration simConfiguration, IList<Genome> parentGenomes)

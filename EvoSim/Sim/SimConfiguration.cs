@@ -6,4 +6,5 @@ class SimConfiguration
     public int InternalNeuronCount { get; set; }
     public int Size { get; set; }
     public double MutationChance { get; set; }
+    public int PopulationSize { get; set; }
 }

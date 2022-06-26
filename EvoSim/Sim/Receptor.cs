@@ -6,7 +6,7 @@ enum ReceptorType
     LocationY
 }
 
-struct Receptor
+static class Receptor
 {
     // TODO source gen
     public const int Count = 2;
