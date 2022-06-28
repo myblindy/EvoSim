@@ -20,7 +20,13 @@ class MainViewModel : ReactiveObject
                 InternalNeuronCount = 3,
                 Size = 300,
                 MutationChance = .2,
-                PopulationSize = 500
+                PopulationSize = 500,
+                Iterations = 4000,
+                Goals =
+                {
+                    new RectangleGoal(0, 150, 40, 300),
+                    new RectangleGoal(300, 150, 40, 300),
+                }
             });
             //dialogService.ShowDialog(this, docVm);
 

@@ -55,5 +55,19 @@ class Cell
             delta = new(delta.X, 0);
 
         Position += delta;
+
+        Direction = delta switch
+        {
+            { X: -1, Y: -1 } => Direction.SW,
+            { X: 0, Y: -1 } => Direction.S,
+            { X: 1, Y: -1 } => Direction.SE,
+            { X: -1, Y: 0 } => Direction.W,
+            { X: 0, Y: 0 } => Direction.Center,
+            { X: 1, Y: 0 } => Direction.E,
+            { X: -1, Y: 1 } => Direction.NW,
+            { X: 0, Y: 1 } => Direction.N,
+            { X: 1, Y: 1 } => Direction.NE,
+            _ => throw new InvalidOperationException()
+        };
     }
 }

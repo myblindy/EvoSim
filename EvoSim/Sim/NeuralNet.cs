@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Windows.Media.Media3D;
 
 namespace EvoSim.Sim;
 
@@ -31,21 +32,43 @@ class NeuralNet
         neurons[(int)ReceptorType.LocationY].Value = (float)cell.Position.Y / cell.SimConfiguration.Size;
 
         // calculate all the internal neuron and effector values
-        foreach (var neuron in neurons.Skip(Receptor.Count))
-            neuron.Value = null;
+        for (var idx = Receptor.Count; idx < neurons.Length; ++idx)
+            neurons[idx].Value = neurons[idx].In.Count == 0 ? 0 : null;
 
         bool any;
         do
         {
             any = false;
 
-            foreach (var neuron in neurons.Skip(Receptor.Count))
-                if (neuron.Value is null && neuron.In.Count > 0 && neuron.In.All(w => w.neuron.Value.HasValue))
+            for (var idx = Receptor.Count; idx < neurons.Length; ++idx)
+            {
+                var neuron = neurons[idx];
+                if (neuron.Value is null)
                 {
-                    neuron.Value = neuron.In.WeightedAverage(w => (w.neuron.Value!.Value, w.weight));
-                    any = true;
-                }
+                    float a = 0, b = 0;
+                    var okay = true;
+                    for (int idxIn = 0; idxIn < neuron.In.Count; ++idxIn)
+                    {
+                        var (otherNeuron, weight) = neuron.In[idxIn];
+                        if (otherNeuron.Value is { } otherNeuronValue)
+                        {
+                            a += otherNeuronValue * weight;
+                            b += weight;
+                        }
+                        else
+                        {
+                            okay = false;
+                            break;
+                        }
+                    }
 
+                    if (okay)
+                    {
+                        neuron.Value = b != 0 ? a / b : 0;
+                        any = true;
+                    }
+                }
+            }
         } while (any);
 
         // calculate the effector actions

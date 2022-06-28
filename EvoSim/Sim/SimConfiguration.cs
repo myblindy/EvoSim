@@ -7,4 +7,6 @@ class SimConfiguration
     public int Size { get; set; }
     public double MutationChance { get; set; }
     public int PopulationSize { get; set; }
+    public int Iterations { get; set; }
+    public List<IGoal> Goals { get; } = new();
 }

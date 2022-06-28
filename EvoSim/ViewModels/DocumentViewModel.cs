@@ -54,12 +54,17 @@ class DocumentViewModel : ReactiveObject
 
         PreviewImageSource = new(Configuration.Size, Configuration.Size, 96, 96, PixelFormats.Bgra32, null);
         PreviewImageSourceData = new uint[Configuration.Size * Configuration.Size];
-        UpdatePreviewImageSource();
+        //UpdatePreviewImageSource();
 
-        StepCommand = ReactiveCommand.Create(() =>
-        {
+        //StepCommand = ReactiveCommand.Create(() =>
+        //{
+        //    CellsGrid.Step();
+        //    UpdatePreviewImageSource();
+        //});
+
+        var sw = Stopwatch.StartNew();
+        for (int iteration = 0; iteration < configuration.Iterations; ++iteration)
             CellsGrid.Step();
-            UpdatePreviewImageSource();
-        });
+        Debug.WriteLine($"{configuration.Iterations} iterations took {sw.Elapsed}.");
     }
 }
